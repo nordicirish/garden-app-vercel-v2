@@ -6,7 +6,7 @@ import Checkbox from "@/components/form/checkbox/checkbox";
 import Image from "next/image";
 import logo from "/public/images/logo-box.png";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 //backend
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,7 +18,7 @@ export default function SignUp() {
   const title = 'Sign up for PlantApp';
   const linkText = 'Have you not an account';
   const linkTitle = 'Sign in';
-
+  const router = useRouter();
   const doSubmit = async (formValue) => {
     //backend
     axios
@@ -26,6 +26,7 @@ export default function SignUp() {
       .then(() => {
         console.log('User has been registered!');
         toast.success('User has been registered!');
+        router.push("/auth/login");
       })
       .catch(() => {
         console.log('An error occurred!');
