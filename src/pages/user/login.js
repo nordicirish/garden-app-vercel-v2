@@ -21,7 +21,7 @@ export default function Login() {
 
   useEffect(() => {
     if (session.status === "authenticated") {
-      router.push("/auth/profile");
+      router.push("/user/profile");
     }
   }, [session, router]);
     //backend
@@ -81,7 +81,7 @@ export default function Login() {
             >
               <div className="w-full flex text-xs justify-end">
                 <Link
-                  href="/auth/resetPassword"
+                  href="/user/resetPassword"
                   className="link text-[#5850EC]"
                 >
                   {linkText}
@@ -115,7 +115,7 @@ export default function Login() {
             <div className="w-full ">
               <span className="flex flex-row justify-normal text-xs gap-2">
                 <p>{textAccount}</p>{" "}
-                <Link href="/auth/signup" className="link text-[#5850EC]">
+                <Link href="/user/signup" className="link text-[#5850EC]">
                   {signupLink}
                 </Link>
               </span>

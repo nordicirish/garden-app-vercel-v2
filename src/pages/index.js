@@ -51,10 +51,10 @@ export default function Home() {
         Welcome to Garden App
         </h1>
         <div className="mb-4">
-        <Link href='/auth/login'>Login page</Link>
+        <Link href='/user/login'>Login page</Link>
         </div>
         <div className="">
-        <Link href='/auth/signup'>Signup page</Link>
+        <Link href='/user/signup'>Signup page</Link>
         </div>
       </div>
 

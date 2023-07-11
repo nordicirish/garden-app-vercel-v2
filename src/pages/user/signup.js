@@ -26,7 +26,7 @@ export default function SignUp() {
       .then(() => {
         console.log('User has been registered!');
         toast.success('User has been registered!');
-        router.push("/auth/login");
+        router.push("/user/login");
       })
       .catch(() => {
         console.log('An error occurred!');
@@ -87,7 +87,7 @@ export default function SignUp() {
 
             <div className=" w-full flex">
               <span className="flex flex-row justify-normal text-xs gap-2">
-                <p>{linkText}</p> <Link href='/auth/login' className="link text-[#5850EC]">{linkTitle}</Link>
+                <p>{linkText}</p> <Link href='/user/login' className="link text-[#5850EC]">{linkTitle}</Link>
               </span>
             </div>
           </div>

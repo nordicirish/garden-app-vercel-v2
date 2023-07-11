@@ -1,66 +1,90 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-
-  accounts Account[]
-  plants   Plant[]
-  comments Comment[]
+    id             String    @id @default(auto()) @map("_id") @db.ObjectId
+    name           String?
+    email          String?   @unique
+    emailVerified  DateTime?
+    image          String?
+    hashedPassword String?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    accounts       Account[]
+    plant          Plant[]
+    comments       Comment[]
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String
+    access_token      String? @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Plant {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  userId    String   @db.ObjectId
-
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments Comment[]
+    id              String    @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt       DateTime  @default(now())
+    userId          String    @db.ObjectId
+    common_name     String
+    scientific_name String
+    image           String
+    plant_age       Int
+    planting_date   DateTime
+    notes           String
+    care_advice     String
+    user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    comments        Comment[]
+    library         Library[]
 }
 
 model Comment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  plantId   String   @db.ObjectId
-  createdAt DateTime @default(now())
-  commentId String   @db.ObjectId
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId    String   @db.ObjectId
+    plantId   String   @db.ObjectId
+    createdAt DateTime @default(now())
+    commentId String   @db.ObjectId
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plant     Plant    @relation(fields: [plantId], references: [id], onDelete: Cascade)
+}
 
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
-  // plant Plant @relation(fields: [plantId], references: [id], onDelete: Cascade)
+model Library {
+    id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+    trefle_id          Int
+    common_name        String
+    scientific_name    String
+    image_url          String
+    watering           String[]
+    lighting           String
+    diseases           String[]
+    type               String
+    categories         String[]
+    extendedPlantsData Json?
+    blooming_period    String[]
+    dimensions         String
+    hardiness          String
+    soil_ph_min        Int
+    soil_ph_max        Int
+    life_cycle         String
+    Plant              Plant?   @relation(fields: [plantId], references: [id])
+    plantId            String?  @db.ObjectId
 }
