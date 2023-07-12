@@ -9,6 +9,7 @@ export const getAllPlants = async () => {
 export const getPlant = async (id) => {
   const plant = await prisma.Library.findUnique({
     where: { id },
+    //http://localhost:3000/api/plants?id=64ad396c38db1dd55edcbf1a
   });
   return plant;
 };
@@ -54,6 +55,30 @@ export const createPlant = async (
   });
   return plant;
 };
+
+// UPDATE
+export const updatePlant = async (id, updateData) => {
+  const Plant_update = await prisma.Library.update({
+    where: {
+      id
+    },
+    data: {
+      ...updateData
+    }
+  })
+  return Plant_update
+}; 
+
+// DELETE
+export const deletePlant = async id => {
+  const deletePlant = await prisma.Library.delete({
+    where: {
+      id
+    }
+  })
+  return deletePlant
+};
+
 
 // Set MIME type to application/json
 export const setJsonMimeType = (req, res, next) => {
