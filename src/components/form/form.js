@@ -26,7 +26,7 @@ export default function Form(props) {
         return (
           <FormInput
             {...field}
-            value={formValue[field.name]}
+            value={formValue[field.value]}
             onChange={handleChange}
             key={field.name}
           />
