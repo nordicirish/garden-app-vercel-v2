@@ -60,28 +60,27 @@ export const createPlant = async (
 export const updatePlant = async (id, updateData) => {
   const Plant_update = await prisma.Library.update({
     where: {
-      id
+      id,
     },
     data: {
-      ...updateData
-    }
-  })
-  return Plant_update
-}; 
-
-// DELETE
-export const deletePlant = async id => {
-  const deletePlant = await prisma.Library.delete({
-    where: {
-      id
-    }
-  })
-  return deletePlant
+      ...updateData,
+    },
+  });
+  return Plant_update;
 };
 
+// DELETE
+export const deletePlant = async (id) => {
+  const deletePlant = await prisma.Library.delete({
+    where: {
+      id,
+    },
+  });
+  return deletePlant;
+};
 
 // Set MIME type to application/json
 export const setJsonMimeType = (req, res, next) => {
-    res.setHeader("Content-Type", "application/json");
-    next();
-  };
+  res.setHeader("Content-Type", "application/json");
+  next();
+};

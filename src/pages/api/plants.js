@@ -1,49 +1,48 @@
-//to handle the api/plants
-import prisma from "../../../libs/prismadb"; // to use the global prisma connection
+// to handle reuests related to plant/s
 
 import {
   createPlant,
-  create,
+  updatePlant,
   getAllPlants,
-  getPlant
-} from '../../../libs/Plant_library'
+  getPlant,
+  deletePlant,
+} from "../../../libs/plantsFuncHandler";
 
 export default async function handle(req, res) {
   try {
     switch (req.method) {
-      case 'GET': {
+      case "GET": {
         if (req.query.id) {
-          // Get a single plant if id is provided in the query
-          // api/plants?id=1
           //http://localhost:3000/api/plants?id=64a57538cc2597753dd8b5a6
-          const plant = await getPlant(req.query.id)
-          return res.status(200).json(plant)
+          const plant = await getPlant(req.query.id);
+          return res.status(200).json(plant);
         } else {
           // Otherwise, fetch all plants
-          const plants = await getAllPlants()
-          console.log(plants)
-          return res.json(plants)
+          const plants = await getAllPlants();
+          console.log(plants);
+          return res.json(plants);
         }
       }
-      case 'POST': {
-        const { trefle_id,
-          common_name,
-          scientific_name,
-          image_url,
-          watering,
-          lighting,
-          diseases,
-          type,
-          categories,
-         extendedPlantsData,
-          blooming_period,
-          dimensions,
-          hardiness,
-          soil_ph_min,
-          soil_ph_max,
-          life_cycle} = req.body 
+      case "POST": {
+        const trefle_id = req.body.trefle_id;
+        const common_name = req.body.common_name;
+        const scientific_name = req.body.scientific_name;
+        const image_url = req.body.image_url;
+        const watering = req.body.watering;
+        const lighting = req.body.lighting;
+        const diseases = req.body.diseases;
+        const type = req.body.type;
+        const categories = req.body.categories;
+        const extendedPlantsData = req.body.extendedPlantsData;
+        const blooming_period = req.body.blooming_period;
+        const dimensions = req.body.dimensions;
+        const hardiness = req.body.hardiness;
+        const soil_ph_min = req.body.soil_ph_min;
+        const soil_ph_max = req.body.soil_ph_max;
+        const life_cycle = req.body.life_cycle;
 
-        if ( trefle_id,
+        const plant = await createPlant(
+          trefle_id,
           common_name,
           scientific_name,
           image_url,
@@ -52,50 +51,32 @@ export default async function handle(req, res) {
           diseases,
           type,
           categories,
-         extendedPlantsData,
+          extendedPlantsData,
           blooming_period,
           dimensions,
           hardiness,
           soil_ph_min,
           soil_ph_max,
-          life_cycle) {
-          // Attach the plant ID to the user's collection
-          const Library = await prisma.Library.create({
-            data: {
-              trefle_id,
-              common_name,
-              scientific_name,
-              image_url,  
-              watering,
-              lighting, 
-              diseases,
-              type,
-              categories,
-             extendedPlantsData,
-              blooming_period,
-              dimensions,
-              hardiness,
-              soil_ph_min,
-              soil_ph_max,
-              life_cycle
-            },
-          });
-          return res.json(Library)
-        } else {
-          // Handle invalid request
-          return res.status(400).json({ message: 'Missing user ID or plant ID' })
-        }
+          life_cycle
+        );
+
+        return res.json(plant);
       }
-      case 'PUT': {
-        // to be done soon    
+
+      case "PUT": {
+        const { id, ...updateData } = req.body;
+        const updatedPlant = await updatePlant(id, updateData);
+        return res.json(updatedPlant);
       }
-      case 'DELETE': {
-        // to be done soon
+      case "DELETE": {
+        const id = req.query.id;
+        const plantDelete = await deletePlant(id);
+        return res.json(plantDelete);
       }
       default:
-        break
+        break;
     }
   } catch (error) {
-    return res.status(500).json({ ...error, message: error.message })
+    return res.status(500).json({ ...error, message: error.message });
   }
 }

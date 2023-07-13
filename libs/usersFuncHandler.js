@@ -30,7 +30,7 @@ export const getUser = async (id) => {
     email: user.email,
     image: user.image,
     createdAt: user.createdAt,
-    updatedAt: user.updatedAt, 
+    updatedAt: user.updatedAt,
   };
 };
 
