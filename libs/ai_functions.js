@@ -34,7 +34,7 @@ const plantLibraryEntry = ({plantCommonName=plant, plantScientificName, plantDes
         },
         plantScientificName: {
           type: "string",
-          description: "The Latin name of the plant",
+          description: "The Latin name of the plant (genus and species)",
         },
         plantDescription: {
           type: "string",
