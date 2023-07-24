@@ -1,5 +1,3 @@
-// to handle reuests related to plant/s
-
 import {
   createPlant,
   updatePlant,
@@ -7,6 +5,7 @@ import {
   getPlant,
   deletePlant,
 } from "../../../libs/plantsFuncHandler";
+
 
 export default async function handle(req, res) {
   try {
@@ -28,36 +27,36 @@ export default async function handle(req, res) {
         const common_name = req.body.common_name;
         const scientific_name = req.body.scientific_name;
         const image_url = req.body.image_url;
-        const watering = req.body.watering;
+        const type = req.body.type;
         const lighting = req.body.lighting;
         const diseases = req.body.diseases;
-        const type = req.body.type;
-        const categories = req.body.categories;
-        const extendedPlantsData = req.body.extendedPlantsData;
+        const description = req.body.description;
         const blooming_period = req.body.blooming_period;
         const dimensions = req.body.dimensions;
         const hardiness = req.body.hardiness;
         const soil_ph_min = req.body.soil_ph_min;
         const soil_ph_max = req.body.soil_ph_max;
         const life_cycle = req.body.life_cycle;
+        const care_advice = req.body.care_advice;
+        const plantId = req.body.plantId;
 
         const plant = await createPlant(
           trefle_id,
           common_name,
           scientific_name,
           image_url,
-          watering,
+          type,
           lighting,
           diseases,
-          type,
-          categories,
-          extendedPlantsData,
+          description,
           blooming_period,
           dimensions,
           hardiness,
           soil_ph_min,
           soil_ph_max,
-          life_cycle
+          life_cycle,
+          care_advice,
+          plantId
         );
 
         return res.json(plant);

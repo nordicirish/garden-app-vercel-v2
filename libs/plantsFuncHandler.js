@@ -9,7 +9,7 @@ export const getAllPlants = async () => {
 export const getPlant = async (id) => {
   const plant = await prisma.Library.findUnique({
     where: { id },
-    //http://localhost:3000/api/plants?id=64ad396c38db1dd55edcbf1a
+    //http://localhost:3000/api/plants?id=64be8035d63346ec8354b592
   });
   return plant;
 };
@@ -17,40 +17,42 @@ export const getPlant = async (id) => {
 // CREATE
 export const createPlant = async (
   trefle_id,
-  common_name,
-  scientific_name,
-  image_url,
-  watering,
-  lighting,
-  diseases,
-  type,
-  categories,
-  extendedPlantsData,
-  blooming_period,
-  dimensions,
-  hardiness,
-  soil_ph_min,
-  soil_ph_max,
-  life_cycle
-) => {
-  const plant = await prisma.Library.create({
-    data: {
-      trefle_id,
       common_name,
       scientific_name,
       image_url,
-      watering,
+      type,
       lighting,
       diseases,
-      type,
-      categories,
-      extendedPlantsData,
+      description,
       blooming_period,
       dimensions,
       hardiness,
       soil_ph_min,
       soil_ph_max,
       life_cycle,
+      care_advice,
+      plantId,
+  // Plant
+) => {
+  const plant = await prisma.Library.create({
+    data: {
+      trefle_id: parseInt(trefle_id),
+      common_name,
+      scientific_name,
+      image_url,
+      type,
+      lighting,
+      diseases,
+      description,
+      blooming_period,
+      dimensions,
+      hardiness,
+      soil_ph_min: parseInt(soil_ph_min),
+      soil_ph_max: parseInt(soil_ph_max),
+      life_cycle,
+      care_advice,
+      plantId,
+      // Plant,
     },
   });
   return plant;
