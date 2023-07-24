@@ -54,11 +54,22 @@ export  const authOptions = {
       
         return user;
       }, pages: {
-        signIn: "/auth/login",
+        signIn: "/user/login",
       },
 }),  
 ],
 secret: process.env.SECRET,
+//to get the  id from the session
+callbacks: {
+  session: ({ session, token }) => ({
+    ...session,
+    user: {
+      ...session.user,
+      id: token.sub,
+    },
+  }),
+},
+//to get the  id from the session
 session: {
 strategy: "jwt",
 },
